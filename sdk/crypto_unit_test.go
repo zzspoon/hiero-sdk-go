@@ -13,7 +13,6 @@ import (
 	"strings"
 	"testing"
 
-	ecdsa "github.com/btcsuite/btcd/btcec/v2/ecdsa"
 	"github.com/hiero-ledger/hiero-sdk-go/v2/proto/services"
 
 	"github.com/stretchr/testify/assert"
@@ -258,11 +257,11 @@ func TestUnitSigning(t *testing.T) {
 	assert.Len(t, signature, 64)
 
 	require.True(t, ed25519.Verify(pubKey.Bytes(), testSignData, signature))
-	require.True(t, pubKey.Verify(testSignData, signature))
+	require.True(t, pubKey.VerifySignedMessage(testSignData, signature))
 
 	// malform signature, require breakage
 	signature[5]++
-	require.False(t, pubKey.Verify(testSignData, signature))
+	require.False(t, pubKey.VerifySignedMessage(testSignData, signature))
 }
 
 func TestUnitGenerated24MnemonicToWorkingPrivateKey(t *testing.T) {
@@ -466,15 +465,12 @@ func TestUnitPrivateKeyECDSASignVerify(t *testing.T) {
 	assert.Len(t, sig, 65)
 	assert.NotNil(t, key.PublicKey().ecdsaPublicKey)
 
-	recoveredKey, _, err := ecdsa.RecoverCompact(sig, hash.Bytes())
-	require.NoError(t, err)
-
-	require.True(t, key.PublicKey().ecdsaPublicKey.IsEqual(recoveredKey))
-	require.True(t, key.PublicKey().Verify(message, sig))
+	require.True(t, key.PublicKey().Verify(hash.Bytes(), sig))
+	require.True(t, key.PublicKey().VerifySignedMessage(message, sig))
 
 	// malform signature, require breakage
 	sig[5]++
-	require.False(t, key.PublicKey().Verify(message, sig))
+	require.False(t, key.PublicKey().VerifySignedMessage(message, sig))
 }
 
 func TestUnitPrivateKeyECDSASignVerifyFails(t *testing.T) {
