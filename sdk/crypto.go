@@ -133,7 +133,8 @@ func PrivateKeyGenerateEd25519() (PrivateKey, error) {
 	}, nil
 }
 
-// Deprecated: Use [PrivateKeyFromBytesEd25519] or [PrivateKeyFromBytesECDSA] instead.
+// Deprecated pending review, [PrivateKeyFromBytesEd25519], [PrivateKeyFromBytesECDSA]
+// or [PrivateKeyFromBytesDer] are recommended instead.
 func PrivateKeyFromBytes(bytes []byte) (PrivateKey, error) {
 	key, err := _Ed25519PrivateKeyFromBytes(bytes)
 	if err != nil {
@@ -214,7 +215,8 @@ func PublicKeyFromBytesECDSA(bytes []byte) (PublicKey, error) {
 	}, nil
 }
 
-// Deprecated: Use [PublicKeyFromBytesEd25519] or [PublicKeyFromBytesECDSA] instead.
+// Deprecated pending review, [PublicKeyFromBytesEd25519] or [PublicKeyFromBytesECDSA]
+// are recommended instead.
 func PublicKeyFromBytes(bytes []byte) (PublicKey, error) {
 	key, err := _Ed25519PublicKeyFromBytes(bytes)
 	if err != nil {
@@ -269,7 +271,8 @@ func PrivateKeyFromMnemonic(mnemonic Mnemonic, passPhrase string) (PrivateKey, e
 	}, nil
 }
 
-// Deprecated: Use [PrivateKeyFromStringEd25519] or [PrivateKeyFromStringECDSA] instead.
+// Deprecated pending review, [PrivateKeyFromStringEd25519], [PrivateKeyFromStringECDSA]
+// or [PrivateKeyFromStringDer] are recommended instead.
 func PrivateKeyFromString(s string) (PrivateKey, error) {
 	byt, err := hex.DecodeString(s)
 	if err != nil {
@@ -404,7 +407,8 @@ func PrivateKeyReadPem(source io.Reader, passphrase string) (PrivateKey, error) 
 	}, nil
 }
 
-// Deprecated: Use [PublicKeyFromStringEd25519] or [PublicKeyFromStringECDSA] instead.
+// Deprecated pending review, [PublicKeyFromStringEd25519] or [PublicKeyFromStringECDSA]
+// are recommended instead.
 func PublicKeyFromString(s string) (PublicKey, error) {
 	byt, err := hex.DecodeString(s)
 	if err != nil {
